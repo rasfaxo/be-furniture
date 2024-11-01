@@ -1,0 +1,166 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            Int       @id @default(autoincrement())
+  name          String
+  email         String     @unique
+  password      String
+  phone_number  String?    @unique
+  address       String?
+  role          Role
+  created_at    DateTime   @default(now())
+  updated_at    DateTime   @updatedAt
+  Cart          Cart[]
+  Order         Order[]
+  Review        Review[]
+}
+
+model Product {
+  id           Int       @id @default(autoincrement())
+  name         String
+  description  String?
+  price        Decimal
+  stock        Int
+  category_id  Int
+  created_at   DateTime   @default(now())
+  updated_at   DateTime   @updatedAt
+  Category     Category   @relation(fields: [category_id], references: [id])
+  Cart_Item    Cart_Item[]
+  Order_Item   Order_Item[]
+  Review       Review[]
+}
+
+model Category {
+  id            Int       @id @default(autoincrement())
+  name          String
+  description   String?
+  created_at    DateTime   @default(now())
+  updated_at    DateTime   @updatedAt
+  Product       Product[]
+}
+
+model Cart {
+  id           Int       @id @default(autoincrement())
+  user_id      Int
+  total_price  Decimal
+  created_at   DateTime   @default(now())
+  updated_at   DateTime   @updatedAt
+  User         User       @relation(fields: [user_id], references: [id])
+  Cart_Item    Cart_Item[]
+  Order        Order[]
+}
+
+model Cart_Item {
+  id             Int       @id @default(autoincrement())
+  cart_id        Int
+  product_id     Int
+  quantity       Int
+  subtotal_price Decimal
+  created_at     DateTime   @default(now())
+  updated_at     DateTime   @updatedAt
+  Cart           Cart       @relation(fields: [cart_id], references: [id])
+  Product        Product    @relation(fields: [product_id], references: [id])
+}
+
+model Order {
+  id          Int           @id @default(autoincrement())
+  user_id     Int
+  cart_id     Int
+  total_price Decimal
+  status      order_status
+  created_at  DateTime       @default(now())
+  updated_at  DateTime       @updatedAt
+  User        User           @relation(fields: [user_id], references: [id])
+  Cart        Cart           @relation(fields: [cart_id], references: [id])
+  Order_Item  Order_Item[]
+  Payment     Payment[]
+  Shipping    Shipping[]
+}
+
+model Order_Item {
+  id            Int       @id @default(autoincrement())
+  order_id      Int
+  product_id    Int
+  quantity      Int
+  price         Decimal
+  created_at    DateTime   @default(now())
+  updated_at    DateTime   @updatedAt
+  Order         Order      @relation(fields: [order_id], references: [id])
+  Product       Product    @relation(fields: [product_id], references: [id])
+}
+
+model Payment {
+  id             Int             @id @default(autoincrement())
+  order_id       Int
+  payment_method payment_method
+  payment_status payment_status
+  payment_date   DateTime
+  amount         Decimal
+  created_at     DateTime        @default(now())
+  updated_at     DateTime        @updatedAt
+  Order          Order           @relation(fields: [order_id], references: [id])
+}
+
+model Shipping {
+  id            Int             @id @default(autoincrement())
+  order_id      Int
+  address       String
+  shipping_cost Decimal
+  status        shipping_status
+  shipping_date DateTime
+  created_at    DateTime         @default(now())
+  updated_at    DateTime         @updatedAt
+  Order         Order            @relation(fields: [order_id], references: [id])
+}
+
+model Review {
+  id             Int       @id @default(autoincrement())
+  user_id        Int
+  product_id     Int
+  rating         Int
+  review_content String
+  created_at     DateTime   @default(now())
+  updated_at     DateTime   @updatedAt
+  User           User       @relation(fields: [user_id], references: [id])
+  Product        Product    @relation(fields: [product_id], references: [id])
+}
+
+enum order_status {
+  Pending
+  Processing
+  Shipped
+  Delivered
+  Cancelled
+}
+
+enum payment_method {
+  Credit_Card
+  Bank_Transfer
+  E_Wallet
+  Cash_on_Delivery
+}
+
+enum payment_status {
+  Pending
+  Completed
+  Failed
+}
+
+enum shipping_status {
+  Pending
+  In_Transit
+  Delivered
+}
+
+enum Role {
+  Users
+  Admin
+}
+
