@@ -7,9 +7,9 @@ export const updateCategory = async (
     req: Request,
     res: Response
 ) => {
-    const { id, name, description } = req.body;
+    const { id, category_name } = req.body;
 
-    CategoryValidation.validateCategoryPayload({ id, name, description });
+    CategoryValidation.validateUpdateCategory({ id, category_name });
 
     const existingCategory = await categoryService.getCategoryById(parseInt(id));
 
@@ -18,8 +18,7 @@ export const updateCategory = async (
     }
 
     const updateCategory = await categoryService.updateCategory(parseInt(id), {
-        name,
-        description,
+        category_name,
     });
 
     return res.status(200).json({
