@@ -1,3 +1,4 @@
+import { Category_name } from "@prisma/client";
 import { CategoriesModels } from "../../../models/Models";
 import * as Prisma from "@prisma/client";
 
@@ -10,11 +11,10 @@ class CategoryService {
         this.#categoryModel = categoryModel;
     }
 
-    async createCategory(name: string, description?: string): Promise<Category> {
+    async createCategory(category_name: Category_name): Promise<Category> {
         return await this.#categoryModel.create({
             data: {
-                name,
-                description,
+                category_name,
             },
         });
     }
@@ -29,9 +29,9 @@ class CategoryService {
         return await this.#categoryModel.findMany();
     }
 
-    async getCategoryByName(name: string): Promise<Category | null> {
+    async getCategoryByName(category_name: Category_name): Promise<Category | null> {
         return await this.#categoryModel.findFirst({
-            where: { name },
+            where: { category_name },
         });
     }
 
