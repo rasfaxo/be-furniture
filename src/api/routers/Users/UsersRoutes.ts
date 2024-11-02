@@ -21,9 +21,9 @@ const limiter = rateLimit({
 
 usersRoutes.post("/register", catchAsync(createUsers));
 usersRoutes.post("/login", limiter, catchAsync(loginUsers));
-usersRoutes.get("/", authCheck, catchAsync(getUsers));
-usersRoutes.get("/:id", authCheck, catchAsync(getUserById));
-usersRoutes.put("/", authCheck, catchAsync(updateUsers));
-usersRoutes.delete("/:id", authCheck, catchAsync(deleteUsers));
+usersRoutes.get("/users", authCheck, catchAsync(getUsers));
+usersRoutes.get("/users/:id", authCheck, catchAsync(getUserById));
+usersRoutes.put("/users", authCheck, catchAsync(updateUsers));
+usersRoutes.delete("/users/:id", authCheck, catchAsync(deleteUsers));
 
 export default usersRoutes;
