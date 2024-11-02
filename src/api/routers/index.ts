@@ -1,7 +1,8 @@
 import { Express } from "express";
 import usersRoutes from "./Users/UsersRoutes";
+import categoryRoutes from "./Category/CategoryRoutes";
 
-const routes = [usersRoutes];
+const routes = [usersRoutes, categoryRoutes];
 
 const router = (app: Express) => {
   routes.forEach((route) => {
