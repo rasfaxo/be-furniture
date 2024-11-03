@@ -38,12 +38,11 @@ model Product {
 }
 
 model Category {
-  id            Int       @id @default(autoincrement())
-  name          String
-  description   String?
-  created_at    DateTime   @default(now())
-  updated_at    DateTime   @updatedAt
-  Product       Product[]
+  id              Int       @id @default(autoincrement())
+  category_name   Category_name
+  created_at      DateTime   @default(now())
+  updated_at      DateTime   @updatedAt
+  Product         Product[]
 }
 
 model Cart {
@@ -164,3 +163,10 @@ enum Role {
   Admin
 }
 
+enum Category_name {
+  Chair
+  Table
+  Bed
+  Sofa
+  Wardrobe
+}
