@@ -2,7 +2,6 @@ import { Request, Response } from "express"
 import cartItemService from "../../../libs/services/CartItem";
 import NotFoundError from "../../../utils/exceptions/NotFoundError";
 import CartItemValidation from "../../../validation/CartItem";
-import { parse } from "path";
 import productService from "../../../libs/services/Product";
 import cartService from "../../../libs/services/Cart";
 
@@ -26,7 +25,7 @@ export const updateCartItem = async (req: Request, res: Response) => {
         throw new NotFoundError("Cart Id not found")
     }
 
-    const checkProductId = await productService.getProductById(product_id) 
+    const checkProductId = await productService.getProductById(product_id   ) 
 
     if (!checkProductId) {
         throw new NotFoundError("Product Id not found")

@@ -13,7 +13,7 @@ const cartItemRoutes = express.Router()
 cartItemRoutes.post("/cartitem", catchAsync(createCartItem))
 cartItemRoutes.get("/cartitems", catchAsync(getCartItems))
 cartItemRoutes.get("/cartitem/:id", catchAsync(getCartById))
-cartItemRoutes.delete("cartitem/:id", catchAsync(deletCartItem))
+cartItemRoutes.delete("/cartitem/:id", catchAsync(deletCartItem))
 cartItemRoutes.put("/cartitem/", catchAsync(updateCartItem))
 
 
