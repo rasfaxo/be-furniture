@@ -9,7 +9,7 @@ import { deleteCategory } from "../../controllers/Category/DeleteCategory";
 const categoryRoutes = express.Router();
 
 categoryRoutes.post("/category", catchAsync(createCategory));
-categoryRoutes.get("/category/all", catchAsync(getAllCategories));
+categoryRoutes.get("/category", catchAsync(getAllCategories));
 categoryRoutes.get("/category/:id", catchAsync(getCategoryById));
 categoryRoutes.put("/category", catchAsync(updateCategory));
 categoryRoutes.delete("/category/:id", catchAsync(deleteCategory));
