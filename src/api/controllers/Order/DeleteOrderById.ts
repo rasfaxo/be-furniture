@@ -1,22 +1,24 @@
 import { Request, Response } from "express";
-import orderItemService from "../../../libs/services/OrderItem";
+import OrderService from "../../../libs/services/Order";
 import NotFoundError from "../../../utils/exceptions/NotFoundError";
 
-export const GetOrderItemById = async (
+export const deleteOrderByid = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
   try {
     const { id } = req.params;
-    const orderItem = await orderItemService.getOrderItemById(parseInt(id));
-    if (!orderItem) {
-      throw new NotFoundError("Order item tidak ditemukan");
+    const existingOrder = await OrderService.getOrderById(parseInt(id));
+
+    if (!existingOrder) {
+      throw new NotFoundError("Id order tidak ditemukan!");
     }
-    
+
+    const order = await OrderService.deleteOrderById(parseInt(id));
     return res.status(200).json({
       success: true,
-      message: "Order item ditemukan",
-      data: orderItem,
+      message: "Order berhasil dihapus!",
+      data: order,
     });
   } catch (error) {
     if (error instanceof NotFoundError) {
@@ -31,4 +33,3 @@ export const GetOrderItemById = async (
     });
   }
 };
-
