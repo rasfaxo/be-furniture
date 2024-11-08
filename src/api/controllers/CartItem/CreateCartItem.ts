@@ -45,7 +45,7 @@ export const createCartItem = async (
     );
     return res.status(200).json({
         succsess: true,
-        msg: "Successfully created CartItem !",
+        message: "Successfully created CartItem !",
         data: cartItem
     })
 }

@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import CartValidation from "../../../validation/Cart";
 import cartService from "../../../libs/services/Cart";
 import NotFoundError from "../../../utils/exceptions/NotFoundError";
+import userService from "../../../libs/services/Users";
 
 
 
@@ -25,6 +26,11 @@ export const createCart = async (
 
     const checkUniqueId = await cartService.getCartById(user_id);
     if (!checkUniqueId) {
+        throw new NotFoundError("User id not found");
+    }
+
+    const checckUniqueUserId = await userService.getUserById(user_id);
+    if (!checckUniqueUserId) { 
         throw new NotFoundError("User id not found");
     }
     const cart = await cartService.createCart(user_id, total_price);

@@ -15,8 +15,22 @@ class CartItemService {
                 id
             },
             include:{
-                Cart: true,
-                Product:true
+                Cart:{
+                    select: {
+                        id: true,
+                        user_id: true,
+                        total_price: true
+                    }
+                },
+                Product:{
+                    select: {
+                        id: true,
+                        name: true,
+                        description: true,
+                        price: true,
+                        stock: true
+                    }
+                }
             }
         })
     }
@@ -27,8 +41,22 @@ class CartItemService {
             orderBy: {id:"desc"},
             where: filter,
             include: {
-                Cart: true,
-                Product:true
+                Cart:{
+                    select: {
+                        id: true,
+                        user_id: true,
+                        total_price: true
+                    }
+                },
+                Product:{
+                    select: {
+                        id: true,
+                        name: true,
+                        description: true,
+                        price: true,
+                        stock: true
+                    }
+                }
             }
         })
     }
@@ -47,8 +75,22 @@ class CartItemService {
                 subtotal_price
             },
             include: {
-                Cart:true,
-                Product:true
+                Cart:{
+                    select: {
+                        id: true,
+                        user_id: true,
+                        total_price: true
+                    }
+                },
+                Product:{
+                    select: {
+                        id: true,
+                        name: true,
+                        description: true,
+                        price: true,
+                        stock: true
+                    }
+                }
             }
         })
     }

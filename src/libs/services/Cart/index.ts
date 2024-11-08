@@ -13,9 +13,34 @@ class CartService {
         return await this.#cartModel.findUnique({
             where: { id },
             include: {
-                User:true,
-                Cart_Item:true,
-                Order:true
+                User:{
+                    select:{
+                        id: true,
+                        name:true,
+                        email:true,
+                        phone_number:true,
+                        address:true,
+                        role: true
+                    }
+                },
+                Cart_Item:{
+                    select:{
+                        id:true,
+                        cart_id:true,
+                        product_id:true,
+                        quantity:true,
+                        subtotal_price:true
+                    }
+                },
+                Order:{
+                    select:{
+                        id:true,
+                        user_id:true,
+                        cart_id: true,
+                        total_price: true,
+                        status: true
+                    }
+                }
                 
             }
         })
@@ -28,10 +53,34 @@ class CartService {
             orderBy: {id:"desc"},
             where: filter,
             include: {
-                User:true,
-                Cart_Item:true,
-                Order:true
-                
+                User:{
+                    select:{
+                        id: true,
+                        name:true,
+                        email:true,
+                        phone_number:true,
+                        address:true,
+                        role: true
+                    }
+                },
+                Cart_Item:{
+                    select:{
+                        id:true,
+                        cart_id:true,
+                        product_id:true,
+                        quantity:true,
+                        subtotal_price:true
+                    }
+                },
+                Order:{
+                    select:{
+                        id:true,
+                        user_id:true,
+                        cart_id: true,
+                        total_price: true,
+                        status: true
+                    }
+                },
             }
         })
     }
@@ -45,9 +94,34 @@ class CartService {
                 total_price
             },
             include: {
-                User:true,
-                Cart_Item:true,
-                Order:true
+                User:{
+                    select:{
+                        id: true,
+                        name:true,
+                        email:true,
+                        phone_number:true,
+                        address:true,
+                        role: true
+                    }
+                },
+                Cart_Item:{
+                    select:{
+                        id:true,
+                        cart_id:true,
+                        product_id:true,
+                        quantity:true,
+                        subtotal_price:true
+                    }
+                },
+                Order:{
+                    select:{
+                        id:true,
+                        user_id:true,
+                        cart_id: true,
+                        total_price: true,
+                        status: true
+                    }
+                },
                 
             }
         })

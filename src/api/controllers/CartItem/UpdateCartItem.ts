@@ -39,6 +39,6 @@ export const updateCartItem = async (req: Request, res: Response) => {
     })
     return res.status(200).json({
         status: true,
-        msg: "Successfully updated cart item!"
+        message: "Successfully updated cart item!"
     })
 }
