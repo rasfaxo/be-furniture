@@ -8,10 +8,10 @@ export const getUserById = async (req: Request, res: Response) => {
   const user = await userService.getUserById(Number(id));
 
   if (!user) {
-    throw new NotFoundError(
-      "Pengguna tidak ditemukan, silakan masukkan ID yang benar."
-    );
+    throw new NotFoundError("User id not found!");
   }
 
-  return res.status(200).json({ status: "success", data: user });
+  const { password, ...userWithoutPassword } = user;
+
+  return res.status(200).json({ success: true, data: userWithoutPassword });
 };

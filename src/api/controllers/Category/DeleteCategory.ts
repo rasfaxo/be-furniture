@@ -6,31 +6,14 @@ export const deleteCategory = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  try {
-    const { id } = req.params;
-
-    const existingCategory = await categoryService.getCategoryById(Number(id));
-
-    if (!existingCategory) {
-      throw new NotFoundError("Kategori tidak ditemukan!");
-    }
-
-    await categoryService.deleteCategory(Number(id));
-
-    return res.status(200).json({
-      success: true,
-      message: "Kategori berhasil dihapus!",
-    });
-  } catch (error) {
-    if (error instanceof NotFoundError) {
-      return res.status(404).json({
-        success: false,
-        message: error.message,
-      });
-    }
-    return res.status(500).json({
-      success: false,
-      message: "Internal server error",
-    });
+  const { id } = req.params;
+  const checkUniqueId = await categoryService.getCategoryById(Number(id));
+  if (!checkUniqueId) {
+    throw new NotFoundError("Category id not found!");
   }
+  await categoryService.deleteCategory(Number(id));
+  return res.status(200).json({
+    success: true,
+    message: "Successfully delete category!",
+  });
 };

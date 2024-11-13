@@ -25,7 +25,13 @@ export const createUsers = async (
   req: CreateUserRequest,
   res: Response
 ): Promise<Response> => {
-  const { name, email, phone_number, password, role = Role.Users } = req.body;
+  const {
+    name,
+    email,
+    phone_number,
+    password,
+    role = Role.Customer,
+  } = req.body;
   UserValidation.validatePayloadUser({
     name,
     email,

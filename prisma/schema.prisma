@@ -8,115 +8,168 @@ datasource db {
 }
 
 model User {
-  id            Int       @id @default(autoincrement())
-  name          String
-  email         String     @unique
-  password      String
-  phone_number  String?    @unique
-  address       String?
-  role          Role
-  created_at    DateTime   @default(now())
-  updated_at    DateTime   @updatedAt
-  Cart          Cart[]
-  Order         Order[]
-  Review        Review[]
+  id           Int       @id @default(autoincrement())
+  name         String
+  email        String    @unique
+  password     String
+  phone_number String?
+  role         Role
+  created_at   DateTime  @default(now())
+  updated_at   DateTime  @updatedAt
+
+  //  FOREIGN KEY
+  cart         Cart[]
+  order        Order[]
+  review       Review[]
+  address      Address[]
+  checkout     Checkout[]
+}
+
+model Address {
+  id           Int       @id @default(autoincrement())
+  user_id      Int       @unique
+  street       String
+  city         String
+  state        String
+  postal_code  String
+  country      String
+  created_at   DateTime  @default(now())
+  updated_at   DateTime  @updatedAt
+  
+  //  RELATION
+  user         User      @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  //  FOREIGN KEY
+  Shipping     Shipping[]
+  checkout     Checkout[]
 }
 
 model Product {
   id           Int       @id @default(autoincrement())
   name         String
+  image_url    String
   description  String?
   price        Decimal
   stock        Int
   category_id  Int
-  created_at   DateTime   @default(now())
-  updated_at   DateTime   @updatedAt
-  Category     Category   @relation(fields: [category_id], references: [id])
-  Cart_Item    Cart_Item[]
-  Order_Item   Order_Item[]
+  created_at   DateTime  @default(now())
+  updated_at   DateTime  @updatedAt
+
+  // RELATION
+  Category     Category  @relation(fields: [category_id], references: [id], onDelete: Cascade)
+
+  // FOREIGN KEY
+  CartItem     CartItem[]
+  OrderItem    OrderItem[]
   Review       Review[]
 }
 
 model Category {
-  id              Int       @id @default(autoincrement())
-  category_name   Category_name
-  created_at      DateTime   @default(now())
-  updated_at      DateTime   @updatedAt
-  Product         Product[]
+  id                     Int       @id @default(autoincrement())
+  category_name          Category_name
+  created_at             DateTime  @default(now())
+  updated_at             DateTime  @updatedAt
+
+  // FOREIGN KEY
+  Product       Product[]
 }
 
 model Cart {
   id           Int       @id @default(autoincrement())
   user_id      Int
   total_price  Decimal
-  created_at   DateTime   @default(now())
-  updated_at   DateTime   @updatedAt
-  User         User       @relation(fields: [user_id], references: [id])
-  Cart_Item    Cart_Item[]
+  created_at   DateTime  @default(now())
+  updated_at   DateTime  @updatedAt
+
+  //  RELATION
+  User         User      @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  //  FOREIGN KEY
+  CartItem     CartItem[]
   Order        Order[]
+  checkout     Checkout[]
 }
 
-model Cart_Item {
+model CartItem {
   id             Int       @id @default(autoincrement())
   cart_id        Int
   product_id     Int
   quantity       Int
   subtotal_price Decimal
-  created_at     DateTime   @default(now())
-  updated_at     DateTime   @updatedAt
-  Cart           Cart       @relation(fields: [cart_id], references: [id])
-  Product        Product    @relation(fields: [product_id], references: [id])
+  created_at     DateTime  @default(now())
+  updated_at     DateTime  @updatedAt
+
+  //  RELATION
+  Cart           Cart      @relation(fields: [cart_id], references: [id], onDelete: Cascade)
+  Product        Product   @relation(fields: [product_id], references: [id], onDelete: Cascade)
 }
 
 model Order {
-  id          Int           @id @default(autoincrement())
-  user_id     Int
-  cart_id     Int
-  total_price Decimal
-  status      order_status
-  created_at  DateTime       @default(now())
-  updated_at  DateTime       @updatedAt
-  User        User           @relation(fields: [user_id], references: [id])
-  Cart        Cart           @relation(fields: [cart_id], references: [id])
-  Order_Item  Order_Item[]
-  Payment     Payment[]
-  Shipping    Shipping[]
+  id           Int       @id @default(autoincrement())
+  user_id      Int
+  cart_id      Int 
+  total_price  Decimal
+  status       OrderStatus
+  created_at   DateTime  @default(now())
+  updated_at   DateTime  @updatedAt
+
+  //  RELATION
+  User         User      @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  Cart         Cart      @relation(fields: [cart_id], references: [id], onDelete: Cascade)
+
+  //  FOREIGN KEY
+  OrderItem    OrderItem[]
+  Payment      Payment[]
+  Shipping     Shipping[]
 }
 
-model Order_Item {
+model OrderItem {
   id            Int       @id @default(autoincrement())
   order_id      Int
   product_id    Int
   quantity      Int
   price         Decimal
-  created_at    DateTime   @default(now())
-  updated_at    DateTime   @updatedAt
-  Order         Order      @relation(fields: [order_id], references: [id])
-  Product       Product    @relation(fields: [product_id], references: [id])
+  created_at    DateTime  @default(now())
+  updated_at    DateTime  @updatedAt
+
+  //  RELATION
+  Order         Order     @relation(fields: [order_id], references: [id], onDelete: Cascade)
+  Product       Product   @relation(fields: [product_id], references: [id], onDelete: Cascade)
 }
 
 model Payment {
-  id             Int             @id @default(autoincrement())
-  order_id       Int
-  payment_method payment_method
-  payment_status payment_status
+  id             Int            @id @default(autoincrement())
+  order_id       Int @unique
+  payment_method PaymentMethod
+  payment_status PaymentStatus
   payment_date   DateTime
   amount         Decimal
-  created_at     DateTime        @default(now())
-  updated_at     DateTime        @updatedAt
-  Order          Order           @relation(fields: [order_id], references: [id])
+  created_at     DateTime       @default(now())
+  updated_at     DateTime       @updatedAt
+
+  //  RELATION
+  Order          Order          @relation(fields: [order_id], references: [id], onDelete: Cascade)
+
+  //  FOREIGN KEY
+  checkout     Checkout[]
 }
 
 model Shipping {
-  id            Int             @id @default(autoincrement())
-  order_id      Int
-  address       String
+  id            Int            @id @default(autoincrement())
+  order_id      Int @unique
+  address_id    Int
   shipping_cost Decimal
-  status        shipping_status
-  shipping_date DateTime
-  created_at    DateTime         @default(now())
-  updated_at    DateTime         @updatedAt
-  Order         Order            @relation(fields: [order_id], references: [id])
+  shipping_date DateTime?
+  status        ShippingStatus
+  created_at    DateTime       @default(now())
+  updated_at    DateTime       @updatedAt
+
+  //  RELATION
+  Order         Order          @relation(fields: [order_id], references: [id], onDelete: Cascade)
+  Address       Address        @relation(fields: [address_id], references: [id], onDelete: Cascade)
+
+  //  FOREIGN KEY
+  checkout     Checkout[]
 }
 
 model Review {
@@ -125,13 +178,35 @@ model Review {
   product_id     Int
   rating         Int
   review_content String
-  created_at     DateTime   @default(now())
-  updated_at     DateTime   @updatedAt
-  User           User       @relation(fields: [user_id], references: [id])
-  Product        Product    @relation(fields: [product_id], references: [id])
+  created_at     DateTime  @default(now())
+  updated_at     DateTime  @updatedAt
+
+  //  RELATION
+  User           User      @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  Product        Product   @relation(fields: [product_id], references: [id], onDelete: Cascade)
 }
 
-enum order_status {
+model Checkout {
+  id           Int              @id @default(autoincrement())
+  user_id      Int
+  cart_id      Int
+  payment_id   Int
+  shipping_id  Int
+  address_id   Int
+  status       CheckoutStatus
+  total_price  Decimal
+  created_at   DateTime         @default(now())
+  updated_at   DateTime         @updatedAt
+
+  //  RELATION
+  User         User             @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  Cart         Cart             @relation(fields: [cart_id], references: [id], onDelete: Cascade)
+  Payment      Payment          @relation(fields: [payment_id], references: [id], onDelete: Cascade)
+  Shipping     Shipping         @relation(fields: [shipping_id], references: [id], onDelete: Cascade)
+  Address      Address          @relation(fields: [address_id], references: [id], onDelete: Cascade)
+}
+
+enum OrderStatus {
   Pending
   Processing
   Shipped
@@ -139,28 +214,30 @@ enum order_status {
   Cancelled
 }
 
-enum payment_method {
+enum PaymentMethod {
   Credit_Card
   Bank_Transfer
   E_Wallet
   Cash_on_Delivery
 }
 
-enum payment_status {
+enum PaymentStatus {
   Pending
   Completed
   Failed
 }
 
-enum shipping_status {
+enum ShippingStatus {
   Pending
   In_Transit
   Delivered
 }
 
-enum Role {
-  Users
-  Admin
+enum CheckoutStatus {
+  Pending
+  Completed
+  Failed
+  Cancelled
 }
 
 enum Category_name {
@@ -169,4 +246,9 @@ enum Category_name {
   Bed
   Sofa
   Wardrobe
+}
+
+enum Role {
+  Admin
+  Customer
 }

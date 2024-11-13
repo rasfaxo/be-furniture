@@ -5,18 +5,10 @@ export const getAllCategories = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  try {
-    const categories = await categoryService.getAllCategories();
-
-    return res.status(200).json({
-      success: true,
-      message: "Daftar kategori berhasil diambil",
-      data: categories,
-    });
-  } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: "Internal server error",
-    });
-  }
+  const result = await categoryService.getAllCategories();
+  return res.status(200).json({
+    success: true,
+    message: "Successfully get all categories!",
+    query: result,
+  });
 };

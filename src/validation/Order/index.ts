@@ -1,5 +1,5 @@
 import { orderSchema, updateOrderSchema } from "./schema";
-import { order_status } from "@prisma/client";
+import { OrderStatus } from "@prisma/client";
 import InvariantError from "../../utils/exceptions/InvariantError";
 
 interface OrderValidator {
@@ -7,7 +7,7 @@ interface OrderValidator {
   user_id: number;
   cart_id: number;
   total_price: number;
-  status: order_status;
+  status: OrderStatus;
 }
 
 const OrderValidator = {
