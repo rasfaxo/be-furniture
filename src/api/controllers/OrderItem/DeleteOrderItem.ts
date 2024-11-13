@@ -6,33 +6,17 @@ export const deleteOrderItem = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  try {
-    const { id } = req.params;
+  const { id } = req.params;
+  const checkUniqueId = await orderItemService.getOrderItemById(parseInt(id));
 
-    const existingOrderItem = await orderItemService.getOrderItemById(
-      parseInt(id)
-    );
-
-    if (!existingOrderItem) {
-      throw new NotFoundError("Order item tidak ditemukan");
-    }
-
-    await orderItemService.deleteOrderItemById(parseInt(id));
-
-    return res.status(200).json({
-      success: true,
-      message: "Order item berhasil dihapus!",
-    });
-  } catch (error) {
-    if (error instanceof NotFoundError) {
-      return res.status(404).json({
-        success: false,
-        message: error.message,
-      });
-    }
-    return res.status(500).json({
-      success: false,
-      message: "Internal server error",
-    });
+  if (!checkUniqueId) {
+    throw new NotFoundError("Order item not found!");
   }
+
+  await orderItemService.deleteOrderItemById(parseInt(id));
+
+  return res.status(200).json({
+    success: true,
+    message: "Successfully delete order item!",
+  });
 };

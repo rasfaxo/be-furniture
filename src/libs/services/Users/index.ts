@@ -25,18 +25,153 @@ class UserService {
       take: limit,
       orderBy: { id: "desc" },
       where: filter,
+      include: {
+        address: {
+          select: {
+            id: true,
+            street: true,
+            city: true,
+            state: true,
+            postal_code: true,
+            country: true,
+          },
+        },
+        cart: {
+          select: {
+            id: true,
+            total_price: true,
+          },
+        },
+        order: {
+          select: {
+            id: true,
+            cart_id: true,
+            total_price: true,
+            status: true,
+          },
+        },
+        checkout: {
+          select: {
+            id: true,
+            cart_id: true,
+            payment_id: true,
+            shipping_id: true,
+            address_id: true,
+            total_price: true,
+            status: true,
+          },
+        },
+        review: {
+          select: {
+            id: true,
+            product_id: true,
+            rating: true,
+            review_content: true,
+          },
+        },
+      },
     });
   }
 
   async getUserById(id: number): Promise<User | null> {
     return await this.#userModel.findUnique({
       where: { id },
+      include: {
+        address: {
+          select: {
+            id: true,
+            street: true,
+            city: true,
+            state: true,
+            postal_code: true,
+            country: true,
+          },
+        },
+        cart: {
+          select: {
+            id: true,
+            total_price: true,
+          },
+        },
+        order: {
+          select: {
+            id: true,
+            cart_id: true,
+            total_price: true,
+            status: true,
+          },
+        },
+        checkout: {
+          select: {
+            id: true,
+            cart_id: true,
+            payment_id: true,
+            shipping_id: true,
+            address_id: true,
+            total_price: true,
+            status: true,
+          },
+        },
+        review: {
+          select: {
+            id: true,
+            product_id: true,
+            rating: true,
+            review_content: true,
+          },
+        },
+      },
     });
   }
 
   async getUserByEmail(email: string): Promise<User | null> {
     return await this.#userModel.findUnique({
       where: { email },
+      include: {
+        address: {
+          select: {
+            id: true,
+            street: true,
+            city: true,
+            state: true,
+            postal_code: true,
+            country: true,
+          },
+        },
+        cart: {
+          select: {
+            id: true,
+            total_price: true,
+          },
+        },
+        order: {
+          select: {
+            id: true,
+            cart_id: true,
+            total_price: true,
+            status: true,
+          },
+        },
+        checkout: {
+          select: {
+            id: true,
+            cart_id: true,
+            payment_id: true,
+            shipping_id: true,
+            address_id: true,
+            total_price: true,
+            status: true,
+          },
+        },
+        review: {
+          select: {
+            id: true,
+            product_id: true,
+            rating: true,
+            review_content: true,
+          },
+        },
+      },
     });
   }
 

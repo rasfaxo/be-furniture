@@ -1,17 +1,17 @@
 import { Request, Response } from "express";
 import cartService from "../../../libs/services/Cart";
-import NotFoundError from "../../../utils/exceptions/NotFoundError"
+import NotFoundError from "../../../utils/exceptions/NotFoundError";
 
-export const getCartById = async (req:Request, res:Response) => {
-    const{id} = req.params
-    const cart = await cartService.getCartById(Number(id))
+export const getCartById = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const result = await cartService.getCartById(Number(id));
 
-    if(!cart){
-        throw new NotFoundError("Cart not Found")
-    }
+  if (!result) {
+    throw new NotFoundError("Cart id not found!");
+  }
 
-    return res.status(200).json({
-        status: "succsess",
-        data: cart    
-    })
-}
+  return res.status(200).json({
+    status: "Succsessfully get cart by id!",
+    data: result,
+  });
+};

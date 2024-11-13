@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import userService from "../../../libs/services/Users";
 
-// Mendefinisikan tipe untuk filter
 interface Filter {
   id?: number;
   username?: string;
@@ -27,14 +26,20 @@ export const getUsers = async (
   const limitNum = parseInt(limit);
   const skip = (pageNum - 1) * limitNum;
   const { filter } = req.body;
+
   const result = await userService.getUsers(skip, limitNum, filter);
   const conn = await userService.countTotalDataUser();
+
+  const sanitizedResult = result.map((user) => {
+    const { password, ...userWithoutPassword } = user;
+    return userWithoutPassword;
+  });
 
   return res.status(200).json({
     success: true,
     current_page: pageNum,
     total_page: Math.ceil(conn / limitNum),
     total_data: conn,
-    query: result,
+    query: sanitizedResult,
   });
 };

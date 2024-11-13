@@ -1,7 +1,9 @@
 import { Request, Response } from "express";
 import OrderItemService from "../../../libs/services/OrderItem";
+import OrderService from "../../../libs/services/Order";
 import OrderItemValidator from "../../../validation/OrderItem";
-import InvariantError from "../../../utils/exceptions/InvariantError";
+import productService from "../../../libs/services/Product";
+import NotFoundError from "../../../utils/exceptions/NotFoundError";
 
 interface CreateOrderItemRequest extends Request {
   body: {
@@ -16,38 +18,31 @@ export const createOrderItem = async (
   req: CreateOrderItemRequest,
   res: Response
 ): Promise<Response> => {
-  try {
-    const { order_id, product_id, quantity, price } = req.body;
+  const { order_id, product_id, quantity, price } = req.body;
 
-    OrderItemValidator.validateCreateOrderItemPayload({
-      order_id,
-      product_id,
-      quantity,
-      price,
-    });
+  OrderItemValidator.validateCreateOrderItemPayload({
+    order_id,
+    product_id,
+    quantity,
+    price,
+  });
 
-    const newOrderItem = await OrderItemService.createOrderItem(
-      order_id,
-      product_id,
-      quantity,
-      price,
-    );
+  const checkUniqueOrderId = await OrderService.getOrderById(order_id);
 
-    return res.status(200).json({
-      status: true,
-      message: "Order item berhasil dibuat!",
-      data: newOrderItem,
-    });
-  } catch (error) {
-    if (error instanceof InvariantError) {
-      return res.status(400).json({
-        status: false,
-        message: error.message,
-      });
-    }
-    return res.status(500).json({
-      status: false,
-      message: "Terjadi kesalahan pada server!",
-    });
+  const checkUniqueProductId = await productService.getProductById(product_id);
+
+  if (!checkUniqueOrderId) {
+    throw new NotFoundError("Order id not found!");
   }
+
+  if (!checkUniqueProductId) {
+    throw new NotFoundError("Product id not found!");
+  }
+
+  await OrderItemService.createOrderItem(order_id, product_id, quantity, price);
+
+  return res.status(200).json({
+    success: true,
+    message: "Successfully create order item!",
+  });
 };

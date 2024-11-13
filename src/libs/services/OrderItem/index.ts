@@ -1,7 +1,7 @@
 import { OrderItemsModels } from "../../../models/Models";
 import * as Prisma from "@prisma/client";
 
-type OrderItem = Prisma.Order_Item;
+type OrderItem = Prisma.OrderItem;
 
 class OrderItemService {
   #orderItemModel: typeof OrderItemsModels;
@@ -13,10 +13,6 @@ class OrderItemService {
   async getOrderItemById(id: number): Promise<OrderItem | null> {
     return await this.#orderItemModel.findUnique({
       where: { id },
-      include: {
-        Order: true,
-        Product: true,
-      },
     });
   }
 
@@ -25,10 +21,6 @@ class OrderItemService {
       skip,
       take: limit,
       orderBy: { id: "desc" },
-      include: {
-        Order: true,
-        Product: true,
-      },
     });
   }
 
@@ -45,10 +37,6 @@ class OrderItemService {
         quantity,
         price,
       },
-      include: {
-        Order: true,
-        Product: true,
-      },
     });
   }
 
@@ -59,10 +47,6 @@ class OrderItemService {
     return await this.#orderItemModel.update({
       where: { id },
       data,
-      include: {
-        Order: true,
-        Product: true,
-      },
     });
   }
 

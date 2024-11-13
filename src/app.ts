@@ -4,7 +4,6 @@ import cors from "cors";
 import helmet from "helmet";
 import ClientError from "./utils/exceptions/ClientError";
 import router from "./api/routers";
-import rateLimit from "express-rate-limit/dist";
 
 export const app = express();
 
@@ -48,8 +47,6 @@ app.all("*", (req, res) => {
     message: "Halamat Tidak di Temukan!",
   });
 });
-
-// app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 15 }));
 
 // HANDLE ERRORS
 app.use((error: unknown, _req: Request, res: Response, next: NextFunction) => {

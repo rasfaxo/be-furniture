@@ -1,6 +1,12 @@
 import Joi from "joi";
 
-const orderStatus = ["Pending", "Processing", "Shipped", "Delivered", "Cancelled"];
+const orderStatus = [
+  "Pending",
+  "Processing",
+  "Shipped",
+  "Delivered",
+  "Cancelled",
+];
 
 const orderSchema = Joi.object({
   user_id: Joi.number().required().messages({
