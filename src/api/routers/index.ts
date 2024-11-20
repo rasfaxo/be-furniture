@@ -7,8 +7,9 @@ import orderRoutes from "./Order/OrderRoutes";
 import cartItemRoutes from "./CartItem/CartItemRoutes";
 import cartRoutes from "./Cart/CartRoutes";
 import reviewRoutes from "./Review/ReviewRoutes";
+import checkoutRoutes from "./CheckOut/CheckoutRoutes";
 
-const routes = [usersRoutes, categoryRoutes, productRoutes, orderItemRoutes, orderRoutes ,cartItemRoutes, cartRoutes, reviewRoutes];
+const routes = [usersRoutes, categoryRoutes, productRoutes, orderItemRoutes, orderRoutes ,cartItemRoutes, cartRoutes, reviewRoutes, checkoutRoutes];
 
 const router = (app: Express) => {
   routes.forEach((route) => {
