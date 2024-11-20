@@ -8,155 +8,155 @@ datasource db {
 }
 
 model User {
-  id           Int       @id @default(autoincrement())
+  id           Int      @id @default(autoincrement())
   name         String
-  email        String    @unique
+  email        String   @unique
   password     String
   phone_number String?
   role         Role
-  created_at   DateTime  @default(now())
-  updated_at   DateTime  @updatedAt
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
 
   //  FOREIGN KEY
-  cart         Cart[]
-  order        Order[]
-  review       Review[]
-  address      Address[]
-  checkout     Checkout[]
+  cart     Cart[]
+  order    Order[]
+  review   Review[]
+  address  Address[]
+  checkout Checkout[]
 }
 
 model Address {
-  id           Int       @id @default(autoincrement())
-  user_id      Int       @unique
-  street       String
-  city         String
-  state        String
-  postal_code  String
-  country      String
-  created_at   DateTime  @default(now())
-  updated_at   DateTime  @updatedAt
-  
+  id          Int      @id @default(autoincrement())
+  user_id     Int      @unique
+  street      String
+  city        String
+  state       String
+  postal_code String
+  country     String
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
   //  RELATION
-  user         User      @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
   //  FOREIGN KEY
-  Shipping     Shipping[]
-  checkout     Checkout[]
+  Shipping Shipping[]
+  checkout Checkout[]
 }
 
 model Product {
-  id           Int       @id @default(autoincrement())
-  name         String
-  image_url    String
-  description  String?
-  price        Decimal
-  stock        Int
-  category_id  Int
-  created_at   DateTime  @default(now())
-  updated_at   DateTime  @updatedAt
+  id          Int      @id @default(autoincrement())
+  name        String
+  image_url   String
+  description String?
+  price       Decimal
+  stock       Int
+  category_id Int
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
 
   // RELATION
-  Category     Category  @relation(fields: [category_id], references: [id], onDelete: Cascade)
+  Category Category @relation(fields: [category_id], references: [id], onDelete: Cascade)
 
   // FOREIGN KEY
-  CartItem     CartItem[]
-  OrderItem    OrderItem[]
-  Review       Review[]
+  CartItem  CartItem[]
+  OrderItem OrderItem[]
+  Review    Review[]
 }
 
 model Category {
-  id                     Int       @id @default(autoincrement())
-  category_name          Category_name
-  created_at             DateTime  @default(now())
-  updated_at             DateTime  @updatedAt
+  id            Int           @id @default(autoincrement())
+  category_name Category_name
+  created_at    DateTime      @default(now())
+  updated_at    DateTime      @updatedAt
 
   // FOREIGN KEY
-  Product       Product[]
+  Product Product[]
 }
 
 model Cart {
-  id           Int       @id @default(autoincrement())
-  user_id      Int
-  total_price  Decimal
-  created_at   DateTime  @default(now())
-  updated_at   DateTime  @updatedAt
+  id          Int      @id @default(autoincrement())
+  user_id     Int
+  total_price Decimal
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
 
   //  RELATION
-  User         User      @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  User User @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
   //  FOREIGN KEY
-  CartItem     CartItem[]
-  Order        Order[]
-  checkout     Checkout[]
+  CartItem CartItem[]
+  Order    Order[]
+  checkout Checkout[]
 }
 
 model CartItem {
-  id             Int       @id @default(autoincrement())
+  id             Int      @id @default(autoincrement())
   cart_id        Int
   product_id     Int
   quantity       Int
   subtotal_price Decimal
-  created_at     DateTime  @default(now())
-  updated_at     DateTime  @updatedAt
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
 
   //  RELATION
-  Cart           Cart      @relation(fields: [cart_id], references: [id], onDelete: Cascade)
-  Product        Product   @relation(fields: [product_id], references: [id], onDelete: Cascade)
+  Cart    Cart    @relation(fields: [cart_id], references: [id], onDelete: Cascade)
+  Product Product @relation(fields: [product_id], references: [id], onDelete: Cascade)
 }
 
 model Order {
-  id           Int       @id @default(autoincrement())
-  user_id      Int
-  cart_id      Int 
-  total_price  Decimal
-  status       OrderStatus
-  created_at   DateTime  @default(now())
-  updated_at   DateTime  @updatedAt
+  id          Int         @id @default(autoincrement())
+  user_id     Int
+  cart_id     Int
+  total_price Decimal
+  status      OrderStatus
+  created_at  DateTime    @default(now())
+  updated_at  DateTime    @updatedAt
 
   //  RELATION
-  User         User      @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  Cart         Cart      @relation(fields: [cart_id], references: [id], onDelete: Cascade)
+  User User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  Cart Cart @relation(fields: [cart_id], references: [id], onDelete: Cascade)
 
   //  FOREIGN KEY
-  OrderItem    OrderItem[]
-  Payment      Payment[]
-  Shipping     Shipping[]
+  OrderItem OrderItem[]
+  Payment   Payment[]
+  Shipping  Shipping[]
 }
 
 model OrderItem {
-  id            Int       @id @default(autoincrement())
-  order_id      Int
-  product_id    Int
-  quantity      Int
-  price         Decimal
-  created_at    DateTime  @default(now())
-  updated_at    DateTime  @updatedAt
+  id         Int      @id @default(autoincrement())
+  order_id   Int
+  product_id Int
+  quantity   Int
+  price      Decimal
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   //  RELATION
-  Order         Order     @relation(fields: [order_id], references: [id], onDelete: Cascade)
-  Product       Product   @relation(fields: [product_id], references: [id], onDelete: Cascade)
+  Order   Order   @relation(fields: [order_id], references: [id], onDelete: Cascade)
+  Product Product @relation(fields: [product_id], references: [id], onDelete: Cascade)
 }
 
 model Payment {
-  id             Int            @id @default(autoincrement())
-  order_id       Int @unique
+  id             Int           @id @default(autoincrement())
+  order_id       Int           @unique
   payment_method PaymentMethod
   payment_status PaymentStatus
   payment_date   DateTime
   amount         Decimal
-  created_at     DateTime       @default(now())
-  updated_at     DateTime       @updatedAt
+  created_at     DateTime      @default(now())
+  updated_at     DateTime      @updatedAt
 
   //  RELATION
-  Order          Order          @relation(fields: [order_id], references: [id], onDelete: Cascade)
+  Order Order @relation(fields: [order_id], references: [id], onDelete: Cascade)
 
   //  FOREIGN KEY
-  checkout     Checkout[]
+  checkout Checkout[]
 }
 
 model Shipping {
   id            Int            @id @default(autoincrement())
-  order_id      Int @unique
+  order_id      Int            @unique
   address_id    Int
   shipping_cost Decimal
   shipping_date DateTime?
@@ -165,45 +165,45 @@ model Shipping {
   updated_at    DateTime       @updatedAt
 
   //  RELATION
-  Order         Order          @relation(fields: [order_id], references: [id], onDelete: Cascade)
-  Address       Address        @relation(fields: [address_id], references: [id], onDelete: Cascade)
+  Order   Order   @relation(fields: [order_id], references: [id], onDelete: Cascade)
+  Address Address @relation(fields: [address_id], references: [id], onDelete: Cascade)
 
   //  FOREIGN KEY
-  checkout     Checkout[]
+  checkout Checkout[]
 }
 
 model Review {
-  id             Int       @id @default(autoincrement())
+  id             Int      @id @default(autoincrement())
   user_id        Int
   product_id     Int
   rating         Int
   review_content String
-  created_at     DateTime  @default(now())
-  updated_at     DateTime  @updatedAt
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
 
   //  RELATION
-  User           User      @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  Product        Product   @relation(fields: [product_id], references: [id], onDelete: Cascade)
+  User    User    @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  Product Product @relation(fields: [product_id], references: [id], onDelete: Cascade)
 }
 
 model Checkout {
-  id           Int              @id @default(autoincrement())
-  user_id      Int
-  cart_id      Int
-  payment_id   Int
-  shipping_id  Int
-  address_id   Int
-  status       CheckoutStatus
-  total_price  Decimal
-  created_at   DateTime         @default(now())
-  updated_at   DateTime         @updatedAt
+  id          Int            @id @default(autoincrement())
+  user_id     Int
+  cart_id     Int
+  payment_id  Int
+  shipping_id Int
+  address_id  Int
+  status      CheckoutStatus
+  total_price Decimal
+  created_at  DateTime       @default(now())
+  updated_at  DateTime       @updatedAt
 
   //  RELATION
-  User         User             @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  Cart         Cart             @relation(fields: [cart_id], references: [id], onDelete: Cascade)
-  Payment      Payment          @relation(fields: [payment_id], references: [id], onDelete: Cascade)
-  Shipping     Shipping         @relation(fields: [shipping_id], references: [id], onDelete: Cascade)
-  Address      Address          @relation(fields: [address_id], references: [id], onDelete: Cascade)
+  User     User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  Cart     Cart     @relation(fields: [cart_id], references: [id], onDelete: Cascade)
+  Payment  Payment  @relation(fields: [payment_id], references: [id], onDelete: Cascade)
+  Shipping Shipping @relation(fields: [shipping_id], references: [id], onDelete: Cascade)
+  Address  Address  @relation(fields: [address_id], references: [id], onDelete: Cascade)
 }
 
 enum OrderStatus {
@@ -229,8 +229,11 @@ enum PaymentStatus {
 
 enum ShippingStatus {
   Pending
+  Processing
+  Shipped
   In_Transit
   Delivered
+  Cancelled
 }
 
 enum CheckoutStatus {
