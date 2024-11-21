@@ -8,6 +8,7 @@ import { getUsers } from "../../controllers/Users/GetAllUsers";
 import { updateUsers } from "../../controllers/Users/UpdateUsers";
 import { deleteUsers } from "../../controllers/Users/DeleteUsers";
 import { getUserById } from "../../controllers/Users/GetUsersById";
+import { changePasswordUsers } from "../../controllers/Users/ChangePasswordUsers";
 
 const usersRoutes = express.Router();
 
@@ -24,6 +25,11 @@ usersRoutes.post("/login", limiter, catchAsync(loginUsers));
 usersRoutes.get("/users", authCheck, catchAsync(getUsers));
 usersRoutes.get("/users/:id", authCheck, catchAsync(getUserById));
 usersRoutes.put("/users", authCheck, catchAsync(updateUsers));
+usersRoutes.put(
+  "/users/change-password",
+  authCheck,
+  catchAsync(changePasswordUsers)
+);
 usersRoutes.delete("/users/:id", authCheck, catchAsync(deleteUsers));
 
 export default usersRoutes;

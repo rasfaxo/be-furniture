@@ -3,6 +3,7 @@ import AddressValidator from "../../../validation/Address";
 import addressService from "../../../libs/services/Address";
 import NotFoundError from "../../../utils/exceptions/NotFoundError";
 import userService from "../../../libs/services/Users";
+import InvariantError from "../../../utils/exceptions/InvariantError";
 
 interface CreateAddressRequest extends Request {
     body: {
@@ -29,12 +30,19 @@ export const createAddress = async (
         postal_code,
         country
     });
-
+    // check apakah user id ada di table users
     const checkUserId = await userService.getUserById(user_id);
 
     if (!checkUserId) {
         throw new NotFoundError("User Id Not Found");
     };
+
+    // check apakah user id  sudah memiliki address
+    const checkAddressUser = await addressService.getAddressByUserId(user_id);
+    if (checkAddressUser && checkAddressUser.id ) {
+        throw new InvariantError("User id already address");
+    }
+
 
     await  addressService.createAddress(user_id,street,city,state,postal_code,country);
     

@@ -16,7 +16,7 @@ export const updateAddress = async (req: Request, res: Response): Promise<Respon
     if (!checkUniqueId) {
         throw new NotFoundError("Address id not found!");
     }   
-
+    // check apakah user Id sudah memiliki address
     const checkUserId = await addressService.getAddressByUserId(user_id);
     if (checkUserId && checkUserId.id !== parseInt(id)) {
         throw new InvariantError("User id already address");
@@ -25,7 +25,6 @@ export const updateAddress = async (req: Request, res: Response): Promise<Respon
     
 
     //  check apakah user id ada di table address
-
     if (!checkUserId) {
         throw new NotFoundError("User id not found!");
     }

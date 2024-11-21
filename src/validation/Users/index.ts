@@ -14,6 +14,8 @@ interface UserPayload {
   phone_number?: string;
   address?: string;
   role?: string;
+  newPassword?: string;
+  oldPassword?: string;
 }
 
 const UserValidation = {
