@@ -10,4 +10,5 @@ export const ReviewsModels = new PrismaClient().review;
 export const CartsModels = new PrismaClient().cart;
 export const CartItemsModels = new PrismaClient().cartItem;
 export const ShippingModels = new PrismaClient().shipping;
+export const AddressModels = new PrismaClient().address;
 export const CheckoutModels = new PrismaClient().checkout;
