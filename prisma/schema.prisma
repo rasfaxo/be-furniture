@@ -8,13 +8,14 @@ datasource db {
 }
 
 model User {
-  id         Int      @id @default(autoincrement())
-  name       String
-  email      String   @unique
-  password   String
-  role       Role
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  id           Int      @id @default(autoincrement())
+  name         String
+  phone_number String   @unique
+  email        String   @unique
+  password     String
+  role         Role
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
 
   //  FOREIGN KEY
   cart     Cart[]
