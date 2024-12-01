@@ -10,8 +10,9 @@ import reviewRoutes from "./Review/ReviewRoutes";
 import addressRoutes from "./Address/AddressRoutes";
 import shippingRoutes from "./Shipping/Shipping";
 import checkoutRoutes from "./CheckOut/CheckoutRoutes";
+import paymentRoutes from "./Payment/PaymentRoutes";
 
-const routes = [usersRoutes, categoryRoutes, productRoutes, orderItemRoutes, orderRoutes ,cartItemRoutes, cartRoutes,reviewRoutes,addressRoutes,shippingRoutes, checkoutRoutes];
+const routes = [usersRoutes, categoryRoutes, productRoutes, orderItemRoutes, orderRoutes ,cartItemRoutes, cartRoutes,reviewRoutes,addressRoutes,shippingRoutes, checkoutRoutes, paymentRoutes];
 
 const router = (app: Express) => {
   routes.forEach((route) => {
