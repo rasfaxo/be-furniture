@@ -18,15 +18,21 @@ export const loginUsers = async (
 ): Promise<Response | any> => {
   const { email, phone_number, password } = req.body;
 
-  const where: { email?: string; phone_number?: string } = {};
+  if (!email && !phone_number) {
+    throw new NotFoundError("Email or Phone Number must be provided!");
+  }
+
   if (email) {
     UserValidation.validateLoginUser({ email, password });
-    where.email = email;
   } else if (phone_number) {
     UserValidation.validateLoginUser({ phone_number, password });
+  }
+
+  const where: { email?: string; phone_number?: string } = {};
+  if (email) {
+    where.email = email;
+  } else if (phone_number) {
     where.phone_number = phone_number;
-  } else {
-    throw new NotFoundError("Email or Phone Number must be provided!");
   }
 
   const usersCheck = await userService.getUserByCredentials(where);
@@ -42,11 +48,13 @@ export const loginUsers = async (
     throw new AuthenticationError("Incorrect Password");
   }
 
+  // Buat JWT token
   const token = jwt.sign(
     {
       app_name: process.env.APP_NAME,
       id: usersCheck.id,
       email: usersCheck.email,
+      role: usersCheck.role,
     },
     process.env.API_SECRET as string,
     {

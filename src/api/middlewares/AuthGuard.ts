@@ -1,57 +1,57 @@
-import { Request, Response, NextFunction } from "express";
-import cryptoJs from "crypto-js";
+import { Request, Response, NextFunction, RequestHandler } from "express";
+import cryptojs from "crypto-js";
 import jwt from "jsonwebtoken";
-import env from "dotenv";
+import { JwtPayload } from "jsonwebtoken";
 
-env.config();
+declare global {
+  namespace Express {
+    interface Request {
+      user?: JwtPayload;
+    }
+  }
+}
 
-export const authCheck = async (
+export const authCheck: RequestHandler = (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<Response | void | any> => {
+): void => {
   try {
     const token = req.headers["authorization"];
 
     if (!token) {
-      return res.status(401).json({
+      res.status(401).json({
         success: false,
-        msg: "Login terlebih dahulu untuk mendapatkan token!",
+        message: "Login terlebih dahulu untuk mendapatkan token!",
       });
+      return;
     }
 
-    // Decrypt the token
-    const decryptedToken = cryptoJs.AES.decrypt(
+    const decryptedToken = cryptojs.AES.decrypt(
       token.split(" ")[1],
       process.env.API_SECRET as string
-    ).toString(cryptoJs.enc.Utf8);
+    ).toString(cryptojs.enc.Utf8);
 
-    // Verify the JWT
     const verify = jwt.verify(
       decryptedToken,
       process.env.API_SECRET as string
-    ) as jwt.JwtPayload;
+    ) as JwtPayload;
 
     if (!verify) {
-      return res.status(401).json({
+      res.status(401).json({
         success: false,
-        msg: "Login terlebih dahulu untuk mendapatkan token!",
+        message: "Token tidak valid!",
       });
+      return;
     }
 
-    // Check token expiration
-    if (verify.exp && verify.exp < Date.now() / 1000) {
-      return res.status(401).json({
-        success: false,
-        msg: "Token Expired",
-      });
-    }
-
+    req.user = verify;
     next();
   } catch (error) {
-    return res.status(401).json({
+    res.status(401).json({
       success: false,
-      msg: "Login terlebih dahulu untuk mendapatkan token!",
+      message: "Terjadi kesalahan, silakan login ulang!",
     });
+    return;
   }
 };

@@ -12,3 +12,4 @@ export const CartItemsModels = new PrismaClient().cartItem;
 export const ShippingModels = new PrismaClient().shipping;
 export const AddressModels = new PrismaClient().address;
 export const CheckoutModels = new PrismaClient().checkout;
+export const MitraModels = new PrismaClient().mitra;

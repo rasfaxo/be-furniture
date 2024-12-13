@@ -54,6 +54,6 @@ export const changePasswordUsers = async (
 
   res.status(200).json({
     success: true,
-    msg: "Successfully changed password!",
+    message: "Successfully changed password!",
   });
 };

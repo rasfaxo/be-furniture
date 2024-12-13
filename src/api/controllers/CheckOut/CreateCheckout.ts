@@ -27,7 +27,15 @@ export const createCheckout = async (
   req: CreateCheckoutRequest,
   res: Response
 ): Promise<Response> => {
-  const { user_id, cart_id, payment_id, shipping_id, address_id, status, total_price } = req.body;
+  const {
+    user_id,
+    cart_id,
+    payment_id,
+    shipping_id,
+    address_id,
+    status,
+    total_price,
+  } = req.body;
 
   const { error } = createCheckoutSchema.validate(req.body);
   if (error) {
@@ -59,7 +67,7 @@ export const createCheckout = async (
     throw new NotFoundError("Address ID not found!");
   }
 
-  const checkout = await CheckoutService.createCheckout({
+  await CheckoutService.createCheckout({
     user_id,
     cart_id,
     payment_id,
@@ -74,6 +82,5 @@ export const createCheckout = async (
   return res.status(201).json({
     success: true,
     message: "Checkout created successfully",
-    data: checkout,
   });
 };

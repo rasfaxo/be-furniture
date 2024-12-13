@@ -7,6 +7,7 @@ const createProductSchema = Joi.object({
   stock: Joi.number(),
   category_id: Joi.number().required(),
   image_url: Joi.string(),
+  mitra_id: Joi.number().optional(),
 });
 
 const getAllProductSchema = Joi.object({
@@ -16,6 +17,7 @@ const getAllProductSchema = Joi.object({
   stock: Joi.number().required(),
   category_id: Joi.number().required(),
   image_url: Joi.string(),
+  mitra_id: Joi.number().optional(),
 });
 
 const updateProductSchema = Joi.object({
@@ -26,6 +28,7 @@ const updateProductSchema = Joi.object({
   stock: Joi.number().required(),
   category_id: Joi.number().required(),
   image_url: Joi.string(),
+  mitra_id: Joi.number().optional(),
 });
 
 export { createProductSchema, getAllProductSchema, updateProductSchema };

@@ -11,8 +11,23 @@ import addressRoutes from "./Address/AddressRoutes";
 import shippingRoutes from "./Shipping/Shipping";
 import checkoutRoutes from "./CheckOut/CheckoutRoutes";
 import paymentRoutes from "./Payment/PaymentRoutes";
+import mitraRoutes from "./Mitra/MitraRoutes";
 
-const routes = [usersRoutes, categoryRoutes, productRoutes, orderItemRoutes, orderRoutes ,cartItemRoutes, cartRoutes,reviewRoutes,addressRoutes,shippingRoutes, checkoutRoutes, paymentRoutes];
+const routes = [
+  usersRoutes,
+  categoryRoutes,
+  productRoutes,
+  orderItemRoutes,
+  orderRoutes,
+  cartItemRoutes,
+  cartRoutes,
+  reviewRoutes,
+  addressRoutes,
+  shippingRoutes,
+  checkoutRoutes,
+  paymentRoutes,
+  mitraRoutes,
+];
 
 const router = (app: Express) => {
   routes.forEach((route) => {

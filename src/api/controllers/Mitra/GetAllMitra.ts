@@ -1,25 +1,26 @@
 import { Request, Response } from "express";
-import cartItemService from "../../../libs/services/CartItem";
+import mitraService from "../../../libs/services/Mitra";
 
 interface Filter {
   id?: number;
-  cart_id?: number;
-  product_id?: number;
-  quantitiy?: number;
-  subtotal_price?: number;
+  user_id?: number;
+  company_name?: string;
+  business_type?: string;
+  address?: string;
+  contact_info?: string;
 }
 
-interface GetCartItemsQuery {
+interface GetMitraQuery {
   page?: string;
   limit?: string;
 }
 
-interface GetCartsItemBody {
+interface GetMitraBody {
   filter?: Filter;
 }
 
-export const getCartItems = async (
-  req: Request<{}, {}, GetCartsItemBody, GetCartItemsQuery>,
+export const getMitras = async (
+  req: Request<{}, {}, GetMitraBody, GetMitraQuery>,
   res: Response
 ): Promise<Response | any> => {
   const { page = "1", limit = "10" } = req.query;
@@ -27,8 +28,8 @@ export const getCartItems = async (
   const limitNum = parseInt(limit, 10);
   const { filter } = req.body;
   const skip = (pageNum - 1) * limitNum;
-  const result = await cartItemService.getAllCartItem(skip, limitNum, filter);
-  const conn = await cartItemService.countTotalDataCart();
+  const result = await mitraService.getMitras(skip, limitNum, filter);
+  const conn = await mitraService.countTotalDataMitra();
 
   return res.status(200).json({
     succsess: true,
@@ -38,4 +39,4 @@ export const getCartItems = async (
     query: result,
   });
 };
-export default getCartItems;
+export default getMitras;

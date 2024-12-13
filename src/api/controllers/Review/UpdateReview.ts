@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import ReviewValidation from "../../../validation/Review";
 import ReviewService from "../../../libs/services/Review";
 import NotFoundError from "../../../utils/exceptions/NotFoundError";
+import userService from "../../../libs/services/Users";
+import productService from "../../../libs/services/Product";
 
 interface UpdateReviewRequest extends Request {
   body: {
@@ -29,10 +31,25 @@ export const updateReview = async (
 
   const checkUniqueReviewId = await ReviewService.getReviewsById(id);
   if (!checkUniqueReviewId) {
-    throw new NotFoundError("Review id not found!");
+    throw new NotFoundError("review id not found!");
   }
 
-  const updatedReview = await ReviewService.updateReviewById(id, {
+  if (user_id !== undefined) {
+    const checkUniqueUserId = await userService.getUserById(user_id);
+    if (!checkUniqueUserId) {
+      throw new NotFoundError("user id not found!");
+    }
+  }
+
+  if (product_id !== undefined) {
+    const checkUniqueProductId =
+      await productService.getProductById(product_id);
+    if (!checkUniqueProductId) {
+      throw new NotFoundError("product id not found!");
+    }
+  }
+
+  await ReviewService.updateReviewById(id, {
     user_id,
     product_id,
     rating,
@@ -42,6 +59,5 @@ export const updateReview = async (
   return res.status(200).json({
     success: true,
     message: "Successfully updated review!",
-    data: updatedReview,
   });
 };

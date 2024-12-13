@@ -15,7 +15,7 @@ class orderService {
     return await this.#orderModel.findUnique({
       where: { id },
       include: {
-        OrderItem: {
+        orderItems: {
           select: {
             id: true,
             product_id: true,
@@ -23,7 +23,7 @@ class orderService {
             price: true,
           },
         },
-        Payment: {
+        payments: {
           select: {
             id: true,
             payment_method: true,
@@ -31,7 +31,7 @@ class orderService {
             payment_date: true,
           },
         },
-        Shipping: {
+        shippings: {
           select: {
             id: true,
             address_id: true,
@@ -49,7 +49,7 @@ class orderService {
       skip,
       take: limit,
       include: {
-        OrderItem: {
+        orderItems: {
           select: {
             id: true,
             product_id: true,
@@ -57,7 +57,7 @@ class orderService {
             price: true,
           },
         },
-        Payment: {
+        payments: {
           select: {
             id: true,
             payment_method: true,
@@ -65,7 +65,7 @@ class orderService {
             payment_date: true,
           },
         },
-        Shipping: {
+        shippings: {
           select: {
             id: true,
             address_id: true,
