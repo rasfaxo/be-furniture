@@ -3,7 +3,6 @@ import { PaymentMethod, PaymentStatus } from "@prisma/client";
 import Decimal from "decimal.js";
 import * as Prisma from "@prisma/client";
 
-
 type Payment = Prisma.Payment;
 
 class PaymentService {
@@ -17,7 +16,15 @@ class PaymentService {
     return await this.#paymentModel.findUnique({
       where: { id },
       include: {
-        Order: true,
+        order: {
+          select: {
+            id: true,
+            user_id: true,
+            cart_id: true,
+            total_price: true,
+            status: true,
+          },
+        },
       },
     });
   }
@@ -28,7 +35,15 @@ class PaymentService {
       take: limit,
       orderBy: { id: "desc" },
       include: {
-        Order: true,
+        order: {
+          select: {
+            id: true,
+            user_id: true,
+            cart_id: true,
+            total_price: true,
+            status: true,
+          },
+        },
       },
     });
   }
@@ -38,18 +53,26 @@ class PaymentService {
     payment_method: PaymentMethod,
     payment_status: PaymentStatus,
     payment_date: Date,
-    amount: number,
+    amount: number
   ): Promise<Payment> {
     return await this.#paymentModel.create({
       data: {
         order_id,
         payment_method,
         payment_status,
-        payment_date : payment_date.toISOString(),
+        payment_date: payment_date.toISOString(),
         amount: new Decimal(amount),
       },
       include: {
-        Order: true,
+        order: {
+          select: {
+            id: true,
+            user_id: true,
+            cart_id: true,
+            total_price: true,
+            status: true,
+          },
+        },
       },
     });
   }
@@ -62,7 +85,15 @@ class PaymentService {
       where: { id },
       data,
       include: {
-        Order: true,
+        order: {
+          select: {
+            id: true,
+            user_id: true,
+            cart_id: true,
+            total_price: true,
+            status: true,
+          },
+        },
       },
     });
   }

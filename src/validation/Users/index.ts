@@ -16,6 +16,7 @@ interface UserPayload {
   role?: string;
   newPassword?: string;
   oldPassword?: string;
+  mitra_id?:number;
 }
 
 const UserValidation = {

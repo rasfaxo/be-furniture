@@ -13,17 +13,7 @@ class CartService {
     return await this.#cartModel.findUnique({
       where: { id },
       include: {
-        User: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
-            phone_number: true,
-            address: true,
-            role: true,
-          },
-        },
-        CartItem: {
+        cartItems: {
           select: {
             id: true,
             cart_id: true,
@@ -32,13 +22,24 @@ class CartService {
             subtotal_price: true,
           },
         },
-        Order: {
+        orders: {
           select: {
             id: true,
             user_id: true,
             cart_id: true,
             total_price: true,
             status: true,
+          },
+        },
+        checkouts: {
+          select: {
+            id: true,
+            user_id: true,
+            payment_id: true,
+            shipping_id: true,
+            address_id: true,
+            status: true,
+            total_price: true,
           },
         },
       },
@@ -52,17 +53,7 @@ class CartService {
       orderBy: { id: "desc" },
       where: filter,
       include: {
-        User: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
-            phone_number: true,
-            address: true,
-            role: true,
-          },
-        },
-        CartItem: {
+        cartItems: {
           select: {
             id: true,
             cart_id: true,
@@ -71,13 +62,24 @@ class CartService {
             subtotal_price: true,
           },
         },
-        Order: {
+        orders: {
           select: {
             id: true,
             user_id: true,
             cart_id: true,
             total_price: true,
             status: true,
+          },
+        },
+        checkouts: {
+          select: {
+            id: true,
+            user_id: true,
+            payment_id: true,
+            shipping_id: true,
+            address_id: true,
+            status: true,
+            total_price: true,
           },
         },
       },

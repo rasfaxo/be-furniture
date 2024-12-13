@@ -30,7 +30,7 @@ export const createUsers = async (
     email,
     phone_number,
     password,
-    role = Role.Customer,
+    role = Role.User,
   } = req.body;
   UserValidation.validatePayloadUser({
     name,

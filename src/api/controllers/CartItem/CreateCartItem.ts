@@ -36,7 +36,7 @@ export const createCartItem = async (
   if (!checkProductId) {
     throw new NotFoundError("Product id not found!");
   }
-  await cartItemService.createCartItem(
+  const result = await cartItemService.createCartItem(
     cart_id,
     product_id,
     quantity,
@@ -45,5 +45,6 @@ export const createCartItem = async (
   return res.status(200).json({
     succsess: true,
     message: "Successfully created cart item!",
+    data: result,
   });
 };

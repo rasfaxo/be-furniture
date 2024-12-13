@@ -40,25 +40,39 @@ class UserService {
           select: {
             id: true,
             total_price: true,
-          },
-        },
-        order: {
-          select: {
-            id: true,
-            cart_id: true,
-            total_price: true,
-            status: true,
-          },
-        },
-        checkout: {
-          select: {
-            id: true,
-            cart_id: true,
-            payment_id: true,
-            shipping_id: true,
-            address_id: true,
-            total_price: true,
-            status: true,
+            cartItems: {
+              select: {
+                id: true,
+                product_id: true,
+                quantity: true,
+                subtotal_price: true,
+              },
+            },
+            orders: {
+              select: {
+                id: true,
+                total_price: true,
+                status: true,
+                orderItems: {
+                  select: {
+                    id: true,
+                    product_id: true,
+                    quantity: true,
+                    price: true,
+                  },
+                },
+              },
+            },
+            checkouts: {
+              select: {
+                id: true,
+                payment_id: true,
+                shipping_id: true,
+                address_id: true,
+                total_price: true,
+                status: true,
+              },
+            },
           },
         },
         review: {

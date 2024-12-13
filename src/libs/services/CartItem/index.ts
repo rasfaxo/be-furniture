@@ -14,24 +14,6 @@ class CartItemService {
       where: {
         id,
       },
-      include: {
-        Cart: {
-          select: {
-            id: true,
-            user_id: true,
-            total_price: true,
-          },
-        },
-        Product: {
-          select: {
-            id: true,
-            name: true,
-            description: true,
-            price: true,
-            stock: true,
-          },
-        },
-      },
     });
   }
   async getAllCartItem(
@@ -44,24 +26,6 @@ class CartItemService {
       take: limit,
       orderBy: { id: "desc" },
       where: filter,
-      include: {
-        Cart: {
-          select: {
-            id: true,
-            user_id: true,
-            total_price: true,
-          },
-        },
-        Product: {
-          select: {
-            id: true,
-            name: true,
-            description: true,
-            price: true,
-            stock: true,
-          },
-        },
-      },
     });
   }
 
@@ -77,24 +41,6 @@ class CartItemService {
         product_id,
         quantity,
         subtotal_price,
-      },
-      include: {
-        Cart: {
-          select: {
-            id: true,
-            user_id: true,
-            total_price: true,
-          },
-        },
-        Product: {
-          select: {
-            id: true,
-            name: true,
-            description: true,
-            price: true,
-            stock: true,
-          },
-        },
       },
     });
   }

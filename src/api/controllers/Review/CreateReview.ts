@@ -36,16 +36,10 @@ export const createReview = async (
     review_content,
   });
 
-  const review = await ReviewService.createReview(
-    user_id,
-    product_id,
-    rating,
-    review_content
-  );
+  await ReviewService.createReview(user_id, product_id, rating, review_content);
 
   return res.status(200).json({
     success: true,
     message: "Review created successfully",
-    data: review,
   });
 };

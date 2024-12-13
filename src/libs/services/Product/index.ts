@@ -13,14 +13,14 @@ class ProductService {
     return await this.#productModel.findUnique({
       where: { id },
       include: {
-        CartItem: {
+        cartItems: {
           select: {
             id: true,
             quantity: true,
             subtotal_price: true,
           },
         },
-        OrderItem: {
+        orderItems: {
           select: {
             id: true,
             order_id: true,
@@ -28,7 +28,7 @@ class ProductService {
             price: true,
           },
         },
-        Review: true,
+        reviews: true,
       },
     });
   }
@@ -44,14 +44,14 @@ class ProductService {
       orderBy: { id: "desc" },
       where: filter,
       include: {
-        CartItem: {
+        cartItems: {
           select: {
             id: true,
             quantity: true,
             subtotal_price: true,
           },
         },
-        OrderItem: {
+        orderItems: {
           select: {
             id: true,
             order_id: true,
@@ -59,7 +59,7 @@ class ProductService {
             price: true,
           },
         },
-        Review: true,
+        reviews: true,
       },
     });
   }
@@ -70,6 +70,7 @@ class ProductService {
     price: number,
     stock: number,
     category_id: number,
+    mitra_id: number,
     image_url: string
   ): Promise<Product> {
     return await this.#productModel.create({
@@ -79,6 +80,7 @@ class ProductService {
         price,
         stock,
         category_id,
+        mitra_id,
         image_url,
       },
     });

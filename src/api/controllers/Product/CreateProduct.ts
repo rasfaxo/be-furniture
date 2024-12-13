@@ -11,6 +11,7 @@ interface ProductRequest extends Request {
     price: number;
     stock: number;
     category_id: number;
+    mitra_id: number;
     image_url: string;
   };
 }
@@ -19,13 +20,15 @@ export const createProduct = async (
   req: ProductRequest,
   res: Response
 ): Promise<Response> => {
-  const { name, description, price, stock, category_id, image_url } = req.body;
+  const { name, description, price, stock, category_id, image_url, mitra_id } =
+    req.body;
   ProductValidation.validateCreateProduct({
     name,
     description,
     price,
     stock,
     category_id,
+    mitra_id,
     image_url,
   });
 
@@ -36,17 +39,18 @@ export const createProduct = async (
     throw new NotFoundError("Category id not found!");
   }
 
-  const product = await ProductService.createProduct(
+  await ProductService.createProduct(
     name,
     description,
     price,
     stock,
     category_id,
+    mitra_id,
     image_url
   );
+
   return res.status(201).json({
     success: true,
     message: "Product created successfully",
-    data: product,
   });
 };

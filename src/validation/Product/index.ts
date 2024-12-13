@@ -13,6 +13,7 @@ interface ProductPayload {
   price?: number;
   stock?: number;
   category_id?: number;
+  mitra_id?: number;
   image_url?: string;
 }
 
