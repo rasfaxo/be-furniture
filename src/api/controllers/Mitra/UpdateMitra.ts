@@ -4,7 +4,7 @@ import mitraService from "../../../libs/services/Mitra";
 import userService from "../../../libs/services/Users";
 import MitraValidation from "../../../validation/Mitra";
 
-export const updateCartItem = async (req: Request, res: Response) => {
+export const UpdateMitra = async (req: Request, res: Response) => {
   const { id, user_id, company_name, business_type, contact_info } = req.body;
 
   MitraValidation.validateUpdateMitra({

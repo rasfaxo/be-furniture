@@ -14,6 +14,7 @@ const updateMitraSchema = Joi.object({
   business_type: Joi.string().min(3).optional(),
   address: Joi.string().allow("", null).optional(),
   contact_info: Joi.string().min(10).optional(),
+  user_id: Joi.number().required(),
 });
 
 const getMitraByIdSchema = Joi.object({
