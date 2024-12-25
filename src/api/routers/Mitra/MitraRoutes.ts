@@ -29,14 +29,14 @@ mitraRoutes.get(
 mitraRoutes.put(
   "/mitra",
   authCheck,
-  checkRole(["Admin"]),
+  checkRole(["Mitra"]),
   catchAsync(UpdateMitra)
 );
 
 mitraRoutes.delete(
   "/mitra/:id",
   authCheck,
-  checkRole(["Admin"]),
+  checkRole(["Admin", "Mitra"]),
   catchAsync(deleteMitra)
 );
 
