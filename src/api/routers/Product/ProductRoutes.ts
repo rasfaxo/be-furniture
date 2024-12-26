@@ -20,14 +20,14 @@ productRoutes.post(
 productRoutes.get(
   "/products",
   authCheck,
-  checkRole(["Admin", "Mitra"]),
+  checkRole(["Admin", "Mitra", "User"]),
   catchAsync(getProducts)
 );
 
 productRoutes.get(
   "/product/:id",
   authCheck,
-  checkRole(["Admin", "Mitra"]),
+  checkRole(["Admin", "Mitra", "User"]),
   catchAsync(getProductById)
 );
 
