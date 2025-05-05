@@ -11,7 +11,6 @@ import addressRoutes from "./Address/AddressRoutes";
 import shippingRoutes from "./Shipping/Shipping";
 import checkoutRoutes from "./CheckOut/CheckoutRoutes";
 import paymentRoutes from "./Payment/PaymentRoutes";
-import mitraRoutes from "./Mitra/MitraRoutes";
 
 const routes = [
   usersRoutes,
@@ -26,7 +25,6 @@ const routes = [
   shippingRoutes,
   checkoutRoutes,
   paymentRoutes,
-  mitraRoutes,
 ];
 
 const router = (app: Express) => {

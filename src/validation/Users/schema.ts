@@ -16,7 +16,6 @@ const createUserSchema = Joi.object({
     .required(),
   address: Joi.string().allow("", null).optional(),
   role: Joi.string().valid("Users", "Admin").optional(),
-  mitra_id: Joi.number().optional(),
 });
 
 const loginUserSchema = Joi.object({
@@ -55,7 +54,6 @@ const updateUserSchema = Joi.object({
     .max(14)
     .optional(),
   address: Joi.string().allow("", null).optional(),
-  mitra_id: Joi.number().optional(),
 });
 
 const changePasswordSchema = Joi.object({

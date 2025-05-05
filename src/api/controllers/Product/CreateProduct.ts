@@ -11,7 +11,6 @@ interface ProductRequest extends Request {
     price: number;
     stock: number;
     category_id: number;
-    mitra_id: number;
     image_url: string;
   };
 }
@@ -20,7 +19,7 @@ export const createProduct = async (
   req: ProductRequest,
   res: Response
 ): Promise<Response> => {
-  const { name, description, price, stock, category_id, image_url, mitra_id } =
+  const { name, description, price, stock, category_id, image_url } =
     req.body;
   ProductValidation.validateCreateProduct({
     name,
@@ -28,7 +27,6 @@ export const createProduct = async (
     price,
     stock,
     category_id,
-    mitra_id,
     image_url,
   });
 
@@ -45,7 +43,6 @@ export const createProduct = async (
     price,
     stock,
     category_id,
-    mitra_id,
     image_url
   );
 
