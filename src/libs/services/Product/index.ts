@@ -70,7 +70,6 @@ class ProductService {
     price: number,
     stock: number,
     category_id: number,
-    mitra_id: number,
     image_url: string
   ): Promise<Product> {
     return await this.#productModel.create({
@@ -80,7 +79,6 @@ class ProductService {
         price,
         stock,
         category_id,
-        mitra_id,
         image_url,
       },
     });

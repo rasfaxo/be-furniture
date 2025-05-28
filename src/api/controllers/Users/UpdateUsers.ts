@@ -7,14 +7,13 @@ export const updateUsers = async (
   req: Request,
   res: Response
 ): Promise<Response | any> => {
-  const { id, name, email, phone_number, mitra_id } = req.body;
+  const { id, name, email, phone_number } = req.body;
 
   UserValidation.validateUpdateUser({
     id,
     name,
     email,
     phone_number,
-    mitra_id,
   });
 
   const checkUniqueId = await userService.getUserById(parseInt(id));
@@ -28,7 +27,6 @@ export const updateUsers = async (
     name,
     email,
     phone_number,
-    mitra_id,
   });
 
   return res.status(200).json({

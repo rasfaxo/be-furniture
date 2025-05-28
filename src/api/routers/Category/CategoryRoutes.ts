@@ -13,21 +13,21 @@ const categoryRoutes = express.Router();
 categoryRoutes.post(
   "/category",
   authCheck,
-  checkRole(["Admin", "Mitra"]),
+  checkRole(["Admin"]),
   catchAsync(createCategory)
 );
 
 categoryRoutes.put(
   "/category",
   authCheck,
-  checkRole(["Admin", "Mitra"]),
+  checkRole(["Admin"]),
   catchAsync(updateCategory)
 );
 
 categoryRoutes.delete(
   "/category/:id",
   authCheck,
-  checkRole(["Admin", "Mitra"]),
+  checkRole(["Admin"]),
   catchAsync(deleteCategory)
 );
 

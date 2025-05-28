@@ -52,7 +52,7 @@ usersRoutes.delete(
 usersRoutes.put(
   "/users/change-password",
   authCheck,
-  checkRole(["Admin", "Mitra", "User"]),
+  checkRole(["Admin", "User"]),
   catchAsync(changePasswordUsers)
 );
 

@@ -14,11 +14,9 @@ model User {
   email        String   @unique
   password     String
   role         Role
-  mitra_id     Int?
   created_at   DateTime @default(now())
   updated_at   DateTime @updatedAt
 
-  mitra Mitra?
 
   cart     Cart[]
   order    Order[]
@@ -27,21 +25,6 @@ model User {
   checkout Checkout[]
 }
 
-model Mitra {
-  id            Int      @id @default(autoincrement())
-  user_id       Int      @unique
-  company_name  String
-  business_type String
-  address       String
-  contact_info  String
-  created_at    DateTime @default(now())
-  updated_at    DateTime @updatedAt
-
-  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
-
-  products Product[]
-  orders   Order[]   @relation("MitraOrders")
-}
 
 model Address {
   id          Int      @id @default(autoincrement())
@@ -67,12 +50,10 @@ model Product {
   price       Decimal
   stock       Int
   category_id Int
-  mitra_id    Int?
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
 
   Category Category @relation(fields: [category_id], references: [id], onDelete: Cascade)
-  Mitra    Mitra?    @relation(fields: [mitra_id], references: [id], onDelete: Cascade)
 
   cartItems  CartItem[]
   orderItems OrderItem[]
@@ -131,7 +112,6 @@ model Order {
   payments   Payment[]
   shippings  Shipping[]
 
-  Mitra Mitra[] @relation("MitraOrders")
 }
 
 model OrderItem {
@@ -256,5 +236,4 @@ enum Category_name {
 enum Role {
   Admin
   User
-  Mitra
 }

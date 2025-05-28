@@ -13,35 +13,35 @@ const productRoutes = express.Router();
 productRoutes.post(
   "/product",
   authCheck,
-  checkRole(["Admin", "Mitra"]),
+  checkRole(["Admin"]),
   catchAsync(createProduct)
 );
 
 productRoutes.get(
   "/products",
   authCheck,
-  checkRole(["Admin", "Mitra", "User"]),
+  checkRole(["Admin", "User"]),
   catchAsync(getProducts)
 );
 
 productRoutes.get(
   "/product/:id",
   authCheck,
-  checkRole(["Admin", "Mitra", "User"]),
+  checkRole(["Admin", "User"]),
   catchAsync(getProductById)
 );
 
 productRoutes.put(
   "/product",
   authCheck,
-  checkRole(["Admin", "Mitra"]),
+  checkRole(["Admin"]),
   catchAsync(updateProductById)
 );
 
 productRoutes.delete(
   "/product/:id",
   authCheck,
-  checkRole(["Admin", "Mitra"]),
+  checkRole(["Admin"]),
   catchAsync(deleteProduct)
 );
 
