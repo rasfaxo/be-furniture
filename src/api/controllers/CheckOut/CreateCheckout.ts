@@ -24,63 +24,29 @@ interface CreateCheckoutRequest extends Request {
 }
 
 export const createCheckout = async (
-  req: CreateCheckoutRequest,
+  req: Request,
   res: Response
 ): Promise<Response> => {
-  const {
-    user_id,
-    cart_id,
-    payment_id,
-    shipping_id,
-    address_id,
-    status,
-    total_price,
-  } = req.body;
-
   const { error } = createCheckoutSchema.validate(req.body);
   if (error) {
     throw new InvariantError(error.details[0].message);
   }
 
+  const { user_id, cart_id } = req.body;
   const checkUserId = await userService.getUserById(user_id);
   if (!checkUserId) {
     throw new NotFoundError("User ID not found!");
   }
-
   const checkCartId = await cartService.getCartById(cart_id);
   if (!checkCartId) {
     throw new NotFoundError("Cart ID not found!");
   }
 
-  const checkPaymentId = await paymentService.getPaymentById(payment_id);
-  if (!checkPaymentId) {
-    throw new NotFoundError("Payment ID not found!");
-  }
-
-  const checkShippingId = await shippingService.getShippingById(shipping_id);
-  if (!checkShippingId) {
-    throw new NotFoundError("Shipping ID not found!");
-  }
-
-  const checkAddressId = await addressService.getAddressById(address_id);
-  if (!checkAddressId) {
-    throw new NotFoundError("Address ID not found!");
-  }
-
-  await CheckoutService.createCheckout({
-    user_id,
-    cart_id,
-    payment_id,
-    shipping_id,
-    address_id,
-    status,
-    total_price,
-    created_at: new Date(),
-    updated_at: new Date(),
-  });
+  const result = await CheckoutService.createCheckout(req.body);
 
   return res.status(201).json({
     success: true,
     message: "Checkout created successfully",
+    data: result,
   });
 };
