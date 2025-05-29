@@ -1,27 +1,10 @@
 import { Request, Response } from "express";
-import { Decimal } from "@prisma/client/runtime/library";
-import { CheckoutStatus } from "@prisma/client";
 import { createCheckoutSchema } from "../../../validation/CheckOut/schema";
 import InvariantError from "../../../utils/exceptions/InvariantError";
 import NotFoundError from "../../../utils/exceptions/NotFoundError";
 import CheckoutService from "../../../libs/services/CheckOut";
 import userService from "../../../libs/services/Users";
 import cartService from "../../../libs/services/Cart";
-import shippingService from "../../../libs/services/Shipping";
-import addressService from "../../../libs/services/Address";
-import paymentService from "../../../libs/services/Payment";
-
-interface CreateCheckoutRequest extends Request {
-  body: {
-    user_id: number;
-    cart_id: number;
-    payment_id: number;
-    shipping_id: number;
-    address_id: number;
-    status: CheckoutStatus;
-    total_price: Decimal;
-  };
-}
 
 export const createCheckout = async (
   req: Request,
@@ -32,7 +15,17 @@ export const createCheckout = async (
     throw new InvariantError(error.details[0].message);
   }
 
-  const { user_id, cart_id } = req.body;
+  const {
+    user_id,
+    cart_id,
+    address,
+    address_id,
+    orderData,
+    paymentData,
+    shippingData,
+    checkoutData,
+  } = req.body;
+
   const checkUserId = await userService.getUserById(user_id);
   if (!checkUserId) {
     throw new NotFoundError("User ID not found!");
@@ -42,7 +35,16 @@ export const createCheckout = async (
     throw new NotFoundError("Cart ID not found!");
   }
 
-  const result = await CheckoutService.createCheckout(req.body);
+  const result = await CheckoutService.createCheckoutWithTransaction({
+    user_id,
+    cart_id,
+    address,
+    address_id,
+    orderData,
+    paymentData,
+    shippingData,
+    checkoutData,
+  });
 
   return res.status(201).json({
     success: true,
